@@ -7,7 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
-from mainapp.models import Company, Project
+from login.models import Company, Project
 from django.db.models import Q  # 添加这行
 
 class EmployeeViewSet(viewsets.ModelViewSet):

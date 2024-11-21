@@ -1,5 +1,5 @@
 from django.db import models
-from mainapp.models import Company, Project
+from login.models import Company, Project
 from django.contrib.auth import get_user_model
 
 class Employee(models.Model):

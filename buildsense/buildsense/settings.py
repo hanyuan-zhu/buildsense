@@ -41,8 +41,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',  
-    'mainapp',
+    'login',
     'personnel',
+    'permissions',  # 新增权限应用
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'permissions.middleware.PermissionMiddleware',  # 新增权限中间件
 ]
 
 ROOT_URLCONF = 'buildsense.urls'
@@ -137,7 +139,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 指定自定义的用户模型
-AUTH_USER_MODEL = 'mainapp.User'
+AUTH_USER_MODEL = 'login.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -157,3 +159,14 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 APPEND_SLASH = True
+
+# 权限缓存配置
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+    }
+}
+
+# 权限相关配置
+PERMISSION_CACHE_TIMEOUT = 3600  # 权限缓存时间(秒)
