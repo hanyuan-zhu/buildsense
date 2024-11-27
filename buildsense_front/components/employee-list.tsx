@@ -1,31 +1,26 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { TransferModal } from './transfer-modal'
 import { ResignModal } from './resign-modal'
+import { Employee } from '@/lib/types'
 
-export function EmployeeList() {
-  const [employees, setEmployees] = useState([])
+interface EmployeeListProps {
+  employees: Employee[];
+}
+
+export function EmployeeList({ employees }: EmployeeListProps) {
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false)
   const [isResignModalOpen, setIsResignModalOpen] = useState(false)
-  const [selectedEmployee, setSelectedEmployee] = useState(null)
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null)
 
-  useEffect(() => {
-    // TODO: Fetch employees from API
-    setEmployees([
-      { id: 1, name: '李四', position: '开发工程师', company: '公司A', project: '项目X', status: '在岗' },
-      { id: 2, name: '王五', position: '产品经理', company: '公司B', project: '项目Y', status: '在岗' },
-      // ... more employees
-    ])
-  }, [])
-
-  const handleTransfer = (employee) => {
+  const handleTransfer = (employee: Employee) => {
     setSelectedEmployee(employee)
     setIsTransferModalOpen(true)
   }
 
-  const handleResign = (employee) => {
+  const handleResign = (employee: Employee) => {
     setSelectedEmployee(employee)
     setIsResignModalOpen(true)
   }

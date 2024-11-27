@@ -23,8 +23,11 @@ export default function RegisterPage() {
   const [roles, setRoles] = useState<Array<{ id: number; name: string }>>([]);
   const [error, setError] = useState('');
 
+  const [selectedRoleId, setSelectedRoleId] = useState<number | null>(null);
+  const [roleName, setRoleName] = useState('');
+
   useEffect(() => {
-    if (role === '公司管理员' || role === '项目负责人') {
+    if (roleName === '公司管理员' || roleName === '项目负责人') {
       fetchCompanies()
         .then(response => {
           setCompanies(response.data.companies);
@@ -33,7 +36,7 @@ export default function RegisterPage() {
           setError('无法获取公司列表');
         });
     }
-  }, [role]);
+  }, [roleName]);
 
   useEffect(() => {
     if (company) {
@@ -67,7 +70,7 @@ export default function RegisterPage() {
     const data = {
       username,
       password,
-      role,
+      role_id: selectedRoleId,
       company,
       project,
     };
@@ -84,9 +87,9 @@ export default function RegisterPage() {
     username.trim() !== '' &&
     password.trim() !== '' &&
     confirmPassword === password &&
-    role !== '' &&
-    (role === '总公司管理员' || company !== null) &&
-    (role !== '项目负责人' || project !== null);
+    selectedRoleId !== null &&
+    (roleName !== '公司管理员' || company !== null) &&
+    (roleName !== '项目负责人' || project !== null);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -115,19 +118,23 @@ export default function RegisterPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            <Select onValueChange={setRole}>
+            <Select onValueChange={(value) => {
+              setSelectedRoleId(Number(value));
+              const selectedRole = roles.find(r => r.id === Number(value));
+              setRoleName(selectedRole?.name || '');
+            }}>
               <SelectTrigger>
                 <SelectValue placeholder="选择角色" />
               </SelectTrigger>
               <SelectContent>
                 {roles.map((role) => (
-                  <SelectItem key={role.id} value={role.name}>
+                  <SelectItem key={role.id} value={role.id.toString()}>
                     {role.name}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            {(role === '公司管理员' || role === '项目负责人') && (
+            {(roleName === '公司管理员' || roleName === '项目负责人') && (
               <Select onValueChange={(value) => setCompany(Number(value))}>
                 <SelectTrigger>
                   <SelectValue placeholder="选择公司" />
@@ -141,7 +148,7 @@ export default function RegisterPage() {
                 </SelectContent>
               </Select>
             )}
-            {role === '项目负责人' && (
+            {roleName === '项目负责人' && (
               <Select onValueChange={(value) => setProject(Number(value))}>
                 <SelectTrigger>
                   <SelectValue placeholder="选择项目" />

@@ -20,7 +20,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/custom_auth/', include('custom_auth.urls')),
-    path('api/personnel/', include('personnel.urls')),
+    # path('api/personnel/', include('personnel.urls')),
     path('api/permissions/', include('permissions.urls')),
     path('api/core/', include('core.urls')),  
+    path('api/employee/', include('employee.urls')),  # 更新这一行
 ]

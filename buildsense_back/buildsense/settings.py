@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',  
     # 'login',
-    'personnel',
+    # 'personnel',
     'permissions',  
     'custom_auth',
     'core',
+    'employee',
 ]
 
 MIDDLEWARE = [

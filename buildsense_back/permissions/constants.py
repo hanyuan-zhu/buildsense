@@ -1,25 +1,6 @@
 # permissions/constants.py
-PERMISSION_MAPPING = {
-    'employee_view': {
-        'head_office_admin': ['view_all_employees'],
-        'company_admin': ['view_company_employees'],
-        'project_manager': ['view_project_employees']
-    },
-    'employee_change': {
-        'head_office_admin': [
-            'create_employee',
-            'update_employee',
-            'delete_employee',
-            'initiate_transfer',
-            'confirm_transfer',
-            'initiate_resignation',
-            'confirm_resignation'
-        ],
-        'company_admin': ['approve_company_transfer'],
-        'project_manager': ['approve_project_transfer']
-    }
-}
 
+# 权限代码定义
 PERMISSION_CODES = {
     'employee': {
         'view_all': 'view_all_employees',
@@ -28,13 +9,31 @@ PERMISSION_CODES = {
         'create': 'create_employee',
         'update': 'update_employee',
         'delete': 'delete_employee',
-    },
-    'employee_change': {
         'initiate_transfer': 'initiate_transfer',
         'confirm_transfer': 'confirm_transfer',
         'initiate_resignation': 'initiate_resignation',
         'confirm_resignation': 'confirm_resignation',
-        'approve_company_transfer': 'approve_company_transfer',
-        'approve_project_transfer': 'approve_project_transfer',
-    },
+    }
+}
+
+# 角色与权限的对应关系
+ROLE_PERMISSIONS = {
+    '总公司管理员': [
+        PERMISSION_CODES['employee']['view_all'],
+        PERMISSION_CODES['employee']['create'],
+        PERMISSION_CODES['employee']['update'],
+        PERMISSION_CODES['employee']['delete'],
+        PERMISSION_CODES['employee']['initiate_transfer'],
+        PERMISSION_CODES['employee']['confirm_transfer'],
+        PERMISSION_CODES['employee']['initiate_resignation'],
+        PERMISSION_CODES['employee']['confirm_resignation'],
+    ],
+    '公司管理员': [
+        PERMISSION_CODES['employee']['view_company'],
+        PERMISSION_CODES['employee']['confirm_transfer'],
+    ],
+    '项目负责人': [
+        PERMISSION_CODES['employee']['view_project'],
+        PERMISSION_CODES['employee']['confirm_transfer'],
+    ],
 }

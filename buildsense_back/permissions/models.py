@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.conf import settings
 
 User = get_user_model()
 
@@ -15,12 +16,17 @@ class Role(models.Model):
     name = models.CharField(max_length=100)
     permissions = models.ManyToManyField(Permission)
     description = models.TextField(blank=True)
+    users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        through='UserRole',
+        related_name='roles'
+    )
 
     def __str__(self):
         return self.name
 
 class UserRole(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
